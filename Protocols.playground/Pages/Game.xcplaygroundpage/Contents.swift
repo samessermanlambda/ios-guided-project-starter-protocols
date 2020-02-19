@@ -78,12 +78,33 @@ class KnockOut: DiceGame {
         }
     }
     func play() {
-       
+       var reachedGameEnd = false
+       while !reachedGameEnd {
+           for player in players where player.knockedOut == false {
+            
+               let diceRollSum = dice.roll() + dice.roll()
+            
+               if diceRollSum == player.knockOutNumber {
+                   print("Player \(player.id) is knocked out by rolling: \(player.knockOutNumber)")
+                   player.knockedOut = true
+                   let activePlayers = players.filter { $0.knockedOut == false }
+                   if activePlayers.count == 0 {
+                       reachedGameEnd = true
+                       print("All players have been knocked out!")
+                   }
+               } else {
+                   player.score += diceRollSum
+                   if player.score >= 100 {
+                       reachedGameEnd = true
+                       print("Player \(player.id) has won with a final score of \(player.score).")
+                   }
+               }
+           }
+       }
         
     }
     
 }
-
 
 //: The following class is used to track the status of the above game, and will conform to the `DiceGameDelegate` protocol.
 
