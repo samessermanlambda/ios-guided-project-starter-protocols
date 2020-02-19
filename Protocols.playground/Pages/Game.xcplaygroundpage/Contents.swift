@@ -32,15 +32,57 @@ class Dice {
 }
 
 //: Now, let's define a couple protocols for managing a dice-based game.
+// Dice - How many sides, ect
+// A function to play the game
 
+protocol DiceGame {
+    var dice: Dice { get }
+    func play()
+}
 
 
 //: Lastly, we'll create a custom class for tracking a player in our dice game.
-
+class Player {
+    // Score
+    // Knock Out Number
+    // name & ID
+    //Whether they are knocked out or not
+    
+    let id: Int
+    let knockOutNumber: Int
+    var score: Int
+    var knockedOut: Bool
+    
+    init(id: Int) {
+        self.id = id
+        self.knockOutNumber = Int.random(in: 6...9)
+        self.score = 0
+        self.knockedOut = false
+    }
+}
 
 
 //: With all that configured, let's build our dice game class called _Knock Out!_
-
+class KnockOut: DiceGame {
+    
+    var dice: Dice = Dice(sides: 6, generator: OneThroughTen())
+    var players: [Player] = []
+    
+    init(numberOfPlayers: Int) {
+        
+        players = []
+        
+        for id in 1...numberOfPlayers {
+            let player = Player(id: id)
+            players.append(player)
+        }
+    }
+    func play() {
+       
+        
+    }
+    
+}
 
 
 //: The following class is used to track the status of the above game, and will conform to the `DiceGameDelegate` protocol.
